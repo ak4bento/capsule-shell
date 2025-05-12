@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"bufio"
+	// "bufio"
 	"fmt"
 	"os"
 	"strings"
@@ -60,31 +60,25 @@ var rootCmd = &cobra.Command{
 		}
 		cleanResponse := strings.TrimSpace(clean)
 
-		fmt.Printf("%s🧠 Capsule AI:%s\n%s%s%s", Bold+Green, Reset, Cyan, cleanResponse, Reset)
-
 		if cleanResponse == "I am capsule shell command line interpreter" {
+			internal.RenderOnly(cleanResponse)
 			return
 		}
+		// show UI
+    approved := true
 
 		if execute {
-			fmt.Printf("\n%s🚀 Running command...%s", Bold+Green, Reset)
-
-			fmt.Printf("\n%s🔒 Running the command? (y/n): %s", Bold+Yellow, Reset)
-			reader := bufio.NewReader(os.Stdin)
-			input, _ := reader.ReadString('\n')
-			input = strings.TrimSpace(input)
-
-			if strings.ToLower(input) != "y" {
-				fmt.Printf("%s🚫 Command execution canceled.%s\n", Bold+Red, Reset)
-			} else {
+			approved = internal.RunUI(cleanResponse)
+			if approved {
 				// Extract shell command from response
-				fmt.Printf("%s🚀 Extracting shell command...%s", Bold+Green, Reset)
 				shellCommand := internal.ExtractShellCommand(cleanResponse)
 				err := internal.ExecuteScript(shellCommand)
 				if err != nil {
 					fmt.Printf("%sFailed to run command%s\n%s", Bold+Red, Reset, err)
 				}
 			}
+		} else {
+			internal.RenderOnly(cleanResponse)
 		}
 	},
 }

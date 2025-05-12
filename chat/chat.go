@@ -28,7 +28,8 @@ type LLMRequest struct {
 	Messages []Message `json:"messages"`
 }
 
-const apiURL = "https://openrouter.ai/api/v1/chat/completions"
+var apiURL = os.Getenv("OPENROUTER_URL")
+// var apiURL = "https://openrouter.ai/api/v1/chat/completions"
 
 func SendPrompt(request string) (string, error) {
 	apiKey := os.Getenv("OPENROUTER_API_KEY")
