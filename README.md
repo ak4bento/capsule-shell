@@ -96,7 +96,10 @@ Capsule Shell uses:
 ├── chat/
 │   └── chat.go      # Send prompt to OpenRouter
 ├── internal/
-│   └── script.go     # Extracts shell command from AI response
+│   └── language.go     # Language shell command from AI response
+│   └── readonly.go     # Render readonly not execute shell command from AI response
+│   └── script.go       # Extracts and execute shell command from AI response
+│   └── ui.go           # User Interface terminal AI response
 ├── main.go
 └── go.mod
 ```
