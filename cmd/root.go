@@ -23,6 +23,7 @@ const (
 var (
 	describe bool
 	execute  bool
+	satire   bool
 )
 
 var rootCmd = &cobra.Command{
@@ -42,11 +43,7 @@ var rootCmd = &cobra.Command{
 		var response string
 		var err error
 
-		if describe {
-			response, err = chat.SendDescriptivePrompt(input)
-		} else {
-			response, err = chat.SendPrompt(input)
-		}
+		response, err = FlagingOptions(input)
 
 		if err != nil {
 			fmt.Printf("%s❌ Error: %s%s\n", Bold+Red, err.Error(), Reset)
@@ -60,12 +57,12 @@ var rootCmd = &cobra.Command{
 		}
 		cleanResponse := strings.TrimSpace(clean)
 
-		if cleanResponse == "I am capsule shell command line interpreter" {
+		if cleanResponse == "I am capsule shell command line interpreter" || satire {
 			internal.RenderOnly(cleanResponse)
 			return
 		}
 		// show UI
-    approved := true
+		approved := true
 
 		if execute {
 			approved = internal.RunUI(cleanResponse)
@@ -83,9 +80,23 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+func FlagingOptions(input string) (response string, err error) {
+	if describe {
+		response, err = chat.SendDescriptivePrompt(input)
+	} else {
+    response, err = chat.SendMainPrompt(input)
+  }
+
+  if satire {
+    response, err = chat.SendSatiricalPrompt(input)
+  }
+	return response, err
+}
+
 func init() {
 	rootCmd.Flags().BoolVarP(&describe, "describe", "d", false, "Explain command without running it")
 	rootCmd.Flags().BoolVarP(&execute, "execute", "x", false, "Run command after explanation")
+	rootCmd.Flags().BoolVarP(&satire, "satire", "s", false, "This is jokes for developer")
 }
 
 func Execute() {

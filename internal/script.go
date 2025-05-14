@@ -31,3 +31,10 @@ func ExtractShellCommand(text string) string {
 	}
 	return text // fallback
 }
+
+func GetEnvOrDefault(key, fallback string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return fallback
+}
