@@ -27,7 +27,7 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "capsule-shell",
+	Use:   "capsule-shell [args]",
 	Short: "Capsule Shell - CLI AI Assistant",
 	Long:  `Capsule Shell is AI CLI assistant to help you run shell commands.`,
 	Args:  cobra.ArbitraryArgs, // Accept any number of arguments
