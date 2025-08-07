@@ -97,6 +97,7 @@ func SendMainPrompt(request string) (string, error) {
 
 func SendDescriptivePrompt(request string) (string, error) {
 	apiKey := internal.GetEnvOrDefault("OPENROUTER_API_KEY", "")
+	modelRouter := internal.GetEnvOrDefault("MODEL_ROUTER", "meta-llama/llama-4-maverick:free")
 	result := map[string]interface{}{}
 
 	if apiKey == "" {
@@ -106,7 +107,7 @@ func SendDescriptivePrompt(request string) (string, error) {
 	prompt := internal.GetDescriptivePrompt(lang)
 
 	body := LLMRequest{
-		Model: "meta-llama/llama-4-maverick:free",
+		Model: modelRouter,
 		Messages: []Message{
 			{
 				Role:    "system",
@@ -154,6 +155,7 @@ func SendDescriptivePrompt(request string) (string, error) {
 
 func SendSatiricalPrompt(request string) (string, error) {
 	apiKey := internal.GetEnvOrDefault("OPENROUTER_API_KEY", "")
+  modelRouter := internal.GetEnvOrDefault("MODEL_ROUTER", "meta-llama/llama-4-maverick:free")
 	result := map[string]interface{}{}
 
 	if apiKey == "" {
@@ -163,7 +165,7 @@ func SendSatiricalPrompt(request string) (string, error) {
 	prompt := internal.GetSatiricalPrompt(lang)
 
 	body := LLMRequest{
-		Model: "meta-llama/llama-4-maverick:free", // atau sesuaikan
+		Model: modelRouter, // atau sesuaikan
 		Messages: []Message{
 			{
 				Role:    "system",
